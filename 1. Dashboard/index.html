@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Dashboard</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function toggleSidebar(event) {
+            event.stopPropagation(); // Prevent propagation to body
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("overlay");
+            sidebar.classList.toggle("-translate-x-full");
+            overlay.classList.toggle("hidden");
+        }
+
+        function closeSidebarIfClickedOutside(event) {
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("overlay");
+            if (!sidebar.contains(event.target)) {
+                sidebar.classList.add("-translate-x-full");
+                overlay.classList.add("hidden");
+            }
+        }
+
+        function toggleDropdown(event) {
+            const dropdown = document.getElementById("userDropdown");
+            dropdown.classList.toggle("hidden");
+            event.stopPropagation(); // Prevent event from bubbling to the body
+        }
+
+        document.addEventListener("click", function (event) {
+            const dropdown = document.getElementById("userDropdown");
+            if (dropdown && !dropdown.contains(event.target) && !event.target.closest(".avatar-dropdown")) {
+                dropdown.classList.add("hidden");
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-gray-100 relative min-h-screen" onclick="closeSidebarIfClickedOutside(event)">
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden md:hidden z-10" onclick="toggleSidebar(event)">
+    </div>
+
+    <div class="flex h-full min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 w-64 bg-white shadow-md transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out z-20"
+            onclick="event.stopPropagation()">
+            <div class="p-4 flex items-center">
+                <div class="text-indigo-500 text-2xl font-bold">🌊</div>
+            </div>
+            <nav class="flex-1">
+                <ul class="space-y-2 px-4">
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                            <span class="text-indigo-500 text-xl">🏠</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                            <span class="text-gray-500 text-xl">👥</span>
+                            <span>Team</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                            <span class="text-gray-500 text-xl">📁</span>
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                            <span class="text-gray-500 text-xl">📅</span>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                            <span class="text-gray-500 text-xl">📄</span>
+                            <span>Documents</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                            <span class="text-gray-500 text-xl">📊</span>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="mt-6 px-4">
+                    <h3 class="text-sm font-semibold text-gray-400 uppercase">Your teams</h3>
+                    <ul class="space-y-2 mt-2">
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                                <span
+                                    class="flex items-center justify-center w-6 h-6 bg-gray-100 text-gray-600 rounded-full text-sm">H</span>
+                                <span>Heroicons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                                <span
+                                    class="flex items-center justify-center w-6 h-6 bg-gray-100 text-gray-600 rounded-full text-sm">T</span>
+                                <span>Tailwind Labs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                                <span
+                                    class="flex items-center justify-center w-6 h-6 bg-gray-100 text-gray-600 rounded-full text-sm">W</span>
+                                <span>Workcation</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="mt-auto p-4">
+                <a href="#" class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100">
+                    <span class="text-gray-500 text-xl">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col ml-0 md:ml-64 overflow-auto">
+            <!-- Top Bar -->
+            <header class="flex items-center justify-between bg-white p-4 shadow z-10 relative sticky top-0">
+                <!-- Hamburger Menu -->
+                <button class="text-gray-500 md:hidden focus:outline-none" onclick="toggleSidebar(event)">
+                    ☰
+                </button>
+                <!-- Search Bar -->
+                <div class="flex-grow md:flex-grow-0 mx-4"> <!-- Added margin using mx-4 -->
+                    <input type="text" placeholder="Search..."
+                        class="border border-gray-300 rounded-md px-3 py-2 w-full md:w-64" />
+                </div>
+                <!-- Right Side -->
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-500 hover:text-indigo-500">
+                        🔔
+                    </button>
+                    <div class="relative avatar-dropdown">
+                        <button class="flex items-center space-x-2" onclick="toggleDropdown(event)">
+                            <img src="https://via.placeholder.com/32" alt="User" class="w-8 h-8 rounded-full" />
+                            <!-- User Name with Ellipsis and Tooltip -->
+                            <span
+                                class="hidden md:inline-block max-w-[160px] overflow-hidden text-ellipsis whitespace-nowrap"
+                                title="HAFIZ HAMZA NASIR CHAUDHARY">
+                                HAFIZ HAMZA NASIR CHAUDHARY
+                            </span>
+                            <span>▼</span>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div id="userDropdown"
+                            class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg hidden z-10">
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Log Out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main Content Area -->
+            <main class="flex-1 p-4 space-y-6">
+                <!-- Meetings Section -->
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">Meetings</h2>
+                    <div class="overflow-x-auto bg-white p-4 rounded-lg shadow-md">
+                        <table class="min-w-full text-sm text-left text-gray-500">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-3">Meeting</th>
+                                    <th class="px-6 py-3">Date</th>
+                                    <th class="px-6 py-3">Status</th>
+                                    <th class="px-6 py-3">Attendees</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-6 py-3">Project Kickoff</td>
+                                    <td class="px-6 py-3">2024-11-20</td>
+                                    <td class="px-6 py-3 text-green-500">Scheduled</td>
+                                    <td class="px-6 py-3">Tom, Jane, Alex</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3">Sprint Planning</td>
+                                    <td class="px-6 py-3">2024-11-25</td>
+                                    <td class="px-6 py-3 text-orange-500">Pending</td>
+                                    <td class="px-6 py-3">Tom, Sarah, Michael</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3">Client Review</td>
+                                    <td class="px-6 py-3">2024-11-28</td>
+                                    <td class="px-6 py-3 text-red-500">Canceled</td>
+                                    <td class="px-6 py-3">Tom, Emma</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Projects Section -->
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">Projects</h2>
+                    <div class="overflow-x-auto bg-white p-4 rounded-lg shadow-md">
+                        <table class="min-w-full text-sm text-left text-gray-500">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-6 py-3">Project</th>
+                                    <th class="px-6 py-3">Deadline</th>
+                                    <th class="px-6 py-3">Status</th>
+                                    <th class="px-6 py-3">Tasks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-6 py-3">Website Redesign</td>
+                                    <td class="px-6 py-3">2024-12-01</td>
+                                    <td class="px-6 py-3 text-green-500">In Progress</td>
+                                    <td class="px-6 py-3">4/6</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3">Mobile App Launch</td>
+                                    <td class="px-6 py-3">2024-12-15</td>
+                                    <td class="px-6 py-3 text-yellow-500">Pending</td>
+                                    <td class="px-6 py-3">1/3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Team Updates Section -->
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">Team Updates</h2>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <span class="font-semibold">Tom Cook:</span>
+                                <p class="ml-2 text-gray-500">Completed the database migration task.</p>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="font-semibold">Jane Doe:</span>
+                                <p class="ml-2 text-gray-500">Started working on the new UI components for the website.
+                                </p>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="font-semibold">Alex Smith:</span>
+                                <p class="ml-2 text-gray-500">Resolved issue with user authentication in the mobile app.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h2 class="text-xl font-bold mb-2">Upcoming Events</h2>
+                    <ul class="space-y-2">
+                        <li class="bg-white p-4 shadow rounded">
+                            <strong>Team Meeting</strong> - Tomorrow at 10:00 AM
+                        </li>
+                        <li class="bg-white p-4 shadow rounded">
+                            <strong>Project Deadline</strong> - Friday at 5:00 PM
+                        </li>
+                        <li class="bg-white p-4 shadow rounded">
+                            <strong>Company Retreat</strong> - Next Monday
+                        </li>
+                    </ul>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
